@@ -17,6 +17,11 @@ public class UserServiceImpl implements UserService {
   UserRepository userRepository;
 
   @Override
+  public Optional<User> findById(Integer userId) {
+    return userRepository.findById(userId);
+  }
+
+  @Override
   public User postUser(String name) {
     User user = new User();
     user.setName(name);
@@ -41,12 +46,14 @@ public class UserServiceImpl implements UserService {
   @Override
   public User updateUser(int id, String name) throws UserPrincipalNotFoundException {
     Optional<User> userOptional = userRepository.findById(id);
-    if (userOptional.isPresent()) {
-      User user = userOptional.get();
-      user.setName(name);
-      return userRepository.save(user);
-    } else {
-      throw new UserPrincipalNotFoundException("User with id " + id + " is not found");
-    }
+
+    Optional<User> opt = Optional.ofNullable(new User());
+
+    userOptional.orElseThrow(() -> new UserPrincipalNotFoundException("User not found"));
+
+    User user = userOptional.get();
+    user.setName(name);
+    return userRepository.save(user);
+
   }
 }

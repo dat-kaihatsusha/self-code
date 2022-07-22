@@ -4,6 +4,7 @@ import com.example.demo.Entity.User;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
   User postUser(String name);
@@ -15,4 +16,6 @@ public interface UserService {
   void deleteUserById(int id);
 
   User updateUser(int id, String name) throws UserPrincipalNotFoundException;
+
+  Optional<User> findById(Integer userId);
 }
