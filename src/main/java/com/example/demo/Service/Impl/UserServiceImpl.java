@@ -3,7 +3,10 @@ package com.example.demo.Service.Impl;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.UserService;
+import com.example.demo.dto.UserDTO;
+import com.example.demo.handlerexception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
@@ -22,9 +25,14 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User postUser(String name) {
+  public User postUser(UserDTO request) throws CustomException {
+    List<User> users = userRepository.findByName(request.getName());
+    if(users.size() > 1){
+      throw new CustomException("user exist", "duplicate", 1001, HttpStatus.CONFLICT);
+    }
     User user = new User();
-    user.setName(name);
+    user.setName(request.getName());
+    user.setEmail(request.getEmail());
     return userRepository.save(user);
   }
 

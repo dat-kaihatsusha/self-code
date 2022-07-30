@@ -1,6 +1,5 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Entity.User;
 import com.example.demo.Service.UserService;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.handlerexception.ErrorResponse;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 @RestController
@@ -18,8 +18,8 @@ public class UserController {
   UserService userService;
 
   @PostMapping()
-  public ResponseEntity postUser(@RequestBody UserDTO dto) {
-    return ResponseEntity.ok(userService.postUser(dto.getName()));
+  public ResponseEntity postUser(@Valid @RequestBody UserDTO request) {
+    return ResponseEntity.ok(userService.postUser(request));
   }
 
   @GetMapping()

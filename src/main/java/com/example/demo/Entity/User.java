@@ -1,37 +1,25 @@
 package com.example.demo.Entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_id")
-  Integer userId;
+  private Integer userId;
+
   @Column(name = "name")
-  String name;
+  private String name;
 
-  public User(String name) {
-    this.name = name;
-  }
+  @Column
+//  @Pattern(regexp = "^(.+)@(\\\\S+)$")
+  private String email;
 
-  public User() {
-  }
-
-  public Integer getUserId() {
-    return userId;
-  }
-
-  public void setUserId(Integer userId) {
-    this.userId = userId;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
 }

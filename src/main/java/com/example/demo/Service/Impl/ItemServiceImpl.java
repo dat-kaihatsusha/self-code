@@ -31,6 +31,9 @@ public class ItemServiceImpl implements ItemService {
 
     Optional<User> userOpt = userService.findById(userId);
     userOpt.orElseThrow(() -> new CustomException("user not found", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
+//    if(!userOpt.isPresent()){
+//      throw new CustomException("item exist", "duplicate", 1001, HttpStatus.CONFLICT);
+//    }
 
     Optional<Item> itemOpt = itemRepository.findByName(request.getName());
     if (itemOpt.isPresent()) {

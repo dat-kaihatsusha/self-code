@@ -46,7 +46,7 @@ public class AnimalServiceImpl implements AnimalService {
   @Override
   public Animal findById(Integer animalId) throws CustomException{
     Optional<Animal> opt = animalRepository.findById(animalId);
-    opt.orElseThrow(() -> new CustomException("animal not found", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
+    opt.orElseThrow(() -> new CustomException("animal not found ahihi", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
     return opt.get();
   }
 
