@@ -19,7 +19,9 @@ public class User {
   private String name;
 
   @Column
-//  @Pattern(regexp = "^(.+)@(\\\\S+)$")
   private String email;
+
+  @Column
+  private String phone;
 
 }
