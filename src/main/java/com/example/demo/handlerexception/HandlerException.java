@@ -27,7 +27,7 @@ public class HandlerException {
     return new ResponseEntity<>(new ErrorResponse(e.getMessage(),
         e.getErrorCode(),
         e.getTitle()),
-        HttpStatus.BAD_REQUEST);
+        e.getStatus());
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
