@@ -27,14 +27,15 @@ public class AnimalServiceImpl implements AnimalService {
   @Override
   public Animal create(AnimalDTO request) throws CustomException {
     Integer userId = request.getUserId();
+    //dungnv9 review code cho Dat start
+    User user = userService.findById(userId)
+        .orElseThrow(() -> new CustomException("user not found", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
 
-    Optional<User> userOpt = userService.findById(userId);
-    userOpt.orElseThrow(() -> new CustomException("user not found", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
-
-    Optional<Animal> animalOpt = animalRepository.findByName(request.getName());
-    if (animalOpt.isPresent()) {
-      throw new CustomException("animal exist", "duplicate", 1001, HttpStatus.CONFLICT);
-    }
+    animalRepository.findByName(request.getName())
+        .ifPresent(entity -> {
+          throw new CustomException("animal exist", "duplicate", 1001, HttpStatus.CONFLICT);
+        });
+    //dungnv9 review code cho Dat end
 
     Animal animal = new Animal();
     animal.setName(request.getName());
@@ -44,23 +45,23 @@ public class AnimalServiceImpl implements AnimalService {
   }
 
   @Override
-  public Animal findById(Integer animalId) throws CustomException{
+  public Animal findById(Integer animalId) throws CustomException {
     Optional<Animal> opt = animalRepository.findById(animalId);
     opt.orElseThrow(() -> new CustomException("animal not found ahihi", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
     return opt.get();
   }
 
   @Override
-  public void delete(Integer animalId) throws CustomException{
+  public void delete(Integer animalId) throws CustomException {
     Optional<Animal> opt = animalRepository.findById(animalId);
-    opt.orElseThrow(()->new CustomException("item not found", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
+    opt.orElseThrow(() -> new CustomException("item not found", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
     animalRepository.deleteById(animalId);
   }
 
   @Override
-  public Animal update(AnimalDTO request, Integer animalId) throws CustomException{
+  public Animal update(AnimalDTO request, Integer animalId) throws CustomException {
     Optional<Animal> opt = animalRepository.findById(animalId);
-    opt.orElseThrow(()->new CustomException("Animal not found", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
+    opt.orElseThrow(() -> new CustomException("Animal not found", Constant.ERROR_TITLE, 1001, HttpStatus.NOT_FOUND));
 
     Animal animal = opt.get();
     animal.setName(request.getName());
@@ -71,12 +72,12 @@ public class AnimalServiceImpl implements AnimalService {
   }
 
   @Override
-  public List<Animal> getAllAnimals(){
+  public List<Animal> getAllAnimals() {
     return animalRepository.findAll();
   }
 
   @Override
-  public List<Animal> findByUserId(Integer userId){
+  public List<Animal> findByUserId(Integer userId) {
     return animalRepository.findByUserId(userId);
   }
 }
