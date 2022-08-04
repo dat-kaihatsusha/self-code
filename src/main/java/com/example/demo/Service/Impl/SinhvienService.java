@@ -2,8 +2,10 @@ package com.example.demo.Service.Impl;
 
 import com.example.demo.Entity.Sinhvien;
 import com.example.demo.Repository.SinhvienRepository;
+import com.example.demo.Service.SvHocphiDto;
 import com.example.demo.dto.SinhVienHocPhiDTO;
 import com.example.demo.dto.SinhvienDTO;
+import com.example.demo.dto.SinhvienHpCaoNhatDTO;
 import com.example.demo.handlerexception.CustomException;
 import common.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.Tuple;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,11 +62,33 @@ public class SinhvienService {
     sinhvien.setHo(request.getHo());
     sinhvien.setTen(request.getTen());
     sinhvien.setDiemthi(request.getDiemthi());
-
     return sinhvienRepository.saveAndFlush(sinhvien);
   }
 
+  // 1. Đây là trường hợp dùng HQL để lấy SinhVienHocPhi
   public List<SinhVienHocPhiDTO> getSinhVienHocPhi(){
     return sinhvienRepository.getSinhVienHocPhi();
+  }
+
+  // 2. Đây là trường hợp dùng tuple để hứng data
+  public List<SinhVienHocPhiDTO> getSinhVienHocPhi2(){
+    List<Tuple> result = sinhvienRepository.getSinhVienHocPhi2();
+    List<SinhVienHocPhiDTO> dtos = new ArrayList<>();
+    for(Tuple tuple :result) {
+      SinhVienHocPhiDTO dto = new SinhVienHocPhiDTO();
+      dto.setTen(tuple.get(0).toString());
+      dto.setHocphi(Integer.valueOf(tuple.get(1).toString()));
+      dtos.add(dto);
+    }
+    return  dtos;
+  }
+
+  // 3. Đây là trường hợp dùng cái cụ thể hơn tuple để hứng data
+  public List<SvHocphiDto> getSinhVienHocPhi3(){
+    return sinhvienRepository.getSinhVienHocPhi3();
+  }
+
+  public List<SinhvienHpCaoNhatDTO> GetSinhvienHpCaoNhat(){
+    return sinhvienRepository.GetSinhvienHpCaoNhat();
   }
 }
