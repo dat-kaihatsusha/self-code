@@ -91,4 +91,8 @@ public class SinhvienService {
   public List<SinhvienHpCaoNhatDTO> GetSinhvienHpCaoNhat(){
     return sinhvienRepository.GetSinhvienHpCaoNhat();
   }
+
+  public Float hocPhiTrungBinh(){
+    return sinhvienRepository.hocPhiTrungBinh();
+  }
 }

@@ -34,7 +34,12 @@ public interface SinhvienRepository extends JpaRepository<Sinhvien, Integer> {
       " on sinhvien.ten = hocphik47.ten ", nativeQuery = true)
   List<SvHocphiDto> getSinhVienHocPhi3();
 
+  // 4. Đây là trường hợp sử dụng store procedure
   @Query(value = "call GetSinhvienHpCaoNhatThapNhat()", nativeQuery = true)
   List<SinhvienHpCaoNhatDTO> GetSinhvienHpCaoNhat();
+
+  //5. Đây là trường hợp sử dụng store function trong mysql
+  @Query(value = "select hocPhiTrungBinh()", nativeQuery = true)
+  Float hocPhiTrungBinh();
 
 }

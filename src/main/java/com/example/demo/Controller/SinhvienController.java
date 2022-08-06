@@ -69,4 +69,9 @@ public class SinhvienController {
     return ResponseEntity.ok(sinhvienService.GetSinhvienHpCaoNhat());
   }
 
+  @GetMapping("/hocPhiTrungBinh")
+  public ResponseEntity<Float> hocPhiTrungBinh() {
+    return ResponseEntity.ok(sinhvienService.hocPhiTrungBinh());
+  }
+
 }
